@@ -1,0 +1,19 @@
+===========================================================================
+  CAUSALQUANT ORACLE — DAILY BRIEFING
+  Date: 2026-09-18  |  Portfolio: $100,000  |  Allocation: 30%
+===========================================================================
+
+  ⏸️  NO ACTIVE SIGNALS
+  All 4 tickers: no causal event detected.
+
+  📋 INACTIVE (3):
+     CC=F: $5,487.00 — Flow=MODERATE_SIGNAL | Wyckoff=PHASE_B | COT=NEUTRAL
+     OJ=F: $141.40 — Flow=MODERATE_SIGNAL | Wyckoff=POTENTIAL_SPRING | COT=UNCROWDED
+     ZW=F: $723.00 — Flow=MODERATE_SIGNAL | Wyckoff=TRENDING | COT=N/A
+
+  ──────────────────────────────────────────────────────────────────────
+  PORTFOLIO RISK:
+    Total Exposure: $0 (0% of capital)
+    Max Risk:       $0 (0.0% of capital)
+    Positions:      0 active / 3 inactive
+===========================================================================
