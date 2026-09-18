@@ -42,8 +42,14 @@ fact. This repository is the curated public slice for auditors, buyers and inves
    ```bash
    pip install opentimestamps-client
    ots info  seals/anchor_20260917.json.ots   # shows the Bitcoin attestation chain
-   ots verify seals/anchor_20260917.json.ots  # verifies against the Bitcoin blockchain
+   ots verify seals/anchor_20260917.json.ots  # full cryptographic verification
    ```
+
+   Notes: this example `.ots` carries the **complete** Bitcoin attestation (upgraded after
+   the block confirmed). `ots info` runs anywhere and shows the chain. Full `ots verify`
+   checks against the Bitcoin blockchain — it needs a local Bitcoin node **or** the web
+   verifier at https://opentimestamps.org (drop the file + the `.ots`). Any byte change to
+   the anchored file breaks the proof; that is the point.
 
 3. **Check that the manifest matches the files:** the anchor in `seals/` contains the
    SHA-256 of that day's artifacts (including `verification_state.json`). Compare:
@@ -52,6 +58,16 @@ fact. This repository is the curated public slice for auditors, buyers and inves
    shasum -a 256 record/verification_state.json
    # and read the "files" section of seals/anchor_20260917.json
    ```
+
+## How to read the numbers (so nothing confuses you)
+
+- Every metric in `verification_state.json` carries its `n`. Read them together, always.
+- A `brier_skill_score` of `null` means the climatological baseline is zero for that cell
+  (no event days in the sample) — the score is undefined, not failed. The `n` tells you
+  how much evidence there is.
+- Per-event rows (e.g. `frost`) and scaled rows (e.g. `frost_lt0`, `heat_gt35`) answer
+  different questions: the first is the calibrated class, the rest are threshold-specific
+  slices. The aggregate is published too, negative and all.
 
 ## What the record shows — honestly
 
