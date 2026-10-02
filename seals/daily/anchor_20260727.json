@@ -1,0 +1,25 @@
+{
+  "branch": "main",
+  "files": {
+    "logs/daily/daily_signals.jsonl": {
+      "bytes": 52400,
+      "sha256": "decb44dc2e8cdbb2d1373a7d76afc9c27583db0af9cfe4796b536c4e29239e73"
+    },
+    "logs/daily/pevent_hindcast_india2022.json": {
+      "bytes": 3969,
+      "sha256": "fde6c7bdac4d72c9899fd663ed1eb6d918b3c458dc9c7b7469d1574c59bbe934"
+    },
+    "logs/daily/portfolio_state.json": {
+      "bytes": 2333,
+      "sha256": "679ed2aca9c2a672039fe9198ee6f812950c81cbf796d2105cb048ead6c1a09e"
+    },
+    "logs/daily/verification_state.json": {
+      "bytes": 25220,
+      "sha256": "12005c9e1e629abcb3bfe02302c40d0cbcffb87f6ded7027b6b9e823b58c3218"
+    }
+  },
+  "generated_at_utc": "2026-07-27T15:19:53+00:00",
+  "head_sha": "70390bbf7a35c50d6180c94305929ff150b00afc",
+  "missing": [],
+  "schema": "ots-anchor.v1"
+}

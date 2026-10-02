@@ -1,0 +1,73 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  record-numbers:
+    name: README numbers come from the record JSON
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install OpenTimestamps client (pinned)
+        run: pip install "opentimestamps-client==0.7.2"
+      - name: Render README and freshness.json and fail on any drift
+        run: python3 ci/render_readme.py --check
+
+  claims-lint:
+    name: Prohibited claim language
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 ci/claims_lint.py
+
+  link-check:
+    name: Link check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 ci/check_links.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  seal-chain:
+    name: OpenTimestamps chain
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install OpenTimestamps client (pinned)
+        run: pip install "opentimestamps-client==0.7.2"
+      - name: Check every proof against its manifest and the chain
+        run: python3 ci/ots_check.py
+
+  p0-grep:
+    name: Internal-content terms stay out
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 ci/qa_grep.py

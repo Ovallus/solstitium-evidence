@@ -12,12 +12,12 @@ is not checkable today.
 
 | Field | Value |
 |---|---|
-| Published pairs | 9,414 (ledger generated 2026-08-27; init times 2021-07-18 to 2026-08-23) |
-| Aggregate skill | Brier Skill Score -0.5986 over n = 9,414: negative, and published as it is. The per-class table below is the honest breakdown |
-| Daily anchors | 92 published (2026-07-03 to 2026-10-02), no missing days |
-| Ledger vs chain | the published ledger (sha256 1d37ad828e0e2c81...) appears unchanged in 37 consecutive daily manifests: 2026-08-27 to 2026-10-02 (36 days) |
-| Signals vs chain | rewritten on 70 of 92 days; longest identical-content run 2026-08-27 to 2026-09-17 (22 days); last change 2026-10-02 |
-| Seal proofs | 92 of 92 `.ots` proofs carry a Bitcoin block attestation; 0 pending |
+| Published pairs | {{N_PAIRS}} (ledger generated {{AS_OF}}; init times {{FIRST_INIT}} to {{LAST_INIT}}) |
+| Aggregate skill | Brier Skill Score {{BSS_OVERALL}} over n = {{N_PAIRS}}: negative, and published as it is. The per-class table below is the honest breakdown |
+| Daily anchors | {{N_ANCHORS}} published ({{ANCHOR_FIRST}} to {{ANCHOR_LAST}}), {{CHAIN_GAPS}} |
+| Ledger vs chain | the published ledger (sha256 {{LEDGER_HASH_SHORT}}) appears unchanged in {{LEDGER_STALE_ANCHORS}} consecutive daily manifests: {{LEDGER_FIRST_PINNED}} to {{ANCHOR_LAST}} ({{LEDGER_STALE_DAYS}} days) |
+| Signals vs chain | rewritten on {{SIGNALS_CHANGED_DAYS}} of {{N_ANCHORS}} days; longest identical-content run {{SIGNALS_GAP_START}} to {{SIGNALS_GAP_END}} ({{SIGNALS_GAP_DAYS}} days); last change {{SIGNALS_LAST_CHANGE}} |
+| Seal proofs | {{OTS_BTC}} of {{OTS_TOTAL}} `.ots` proofs carry a Bitcoin block attestation; {{OTS_PENDING}} pending |
 | Freshness | the badge above: days since the verification ledger last advanced, recomputed on every refresh; the table reports the same fact anchored to the latest published anchor |
 
 The CI regenerates this table from `record/verification_state.json` and `seals/daily/` on
@@ -26,16 +26,7 @@ regenerated daily by a scheduled workflow.
 
 ### Skill by event class
 
-| Event class | n | Brier Skill Score |
-|---|---|---|
-| frost | 96 | 0.72 |
-| frost_lt0 | 2712 | null |
-| frost_lt2 | 2712 | null |
-| frost_lt4 | 2034 | null |
-| heat_gt32 | 342 | -0.1159 |
-| heat_gt35 | 852 | -3.6565 |
-| heat_gt38 | 510 | null |
-| heatwave | 156 | -0.012 |
+{{BY_EVENT_TABLE}}
 
 `null` = the climatological baseline is zero for that cell in this sample: the score is
 undefined, not failed. Read every row with its `n`.
@@ -44,11 +35,11 @@ undefined, not failed. Read every row with its `n`.
 
 | Path | What it is |
 |---|---|
-| `record/verification_state.json` | The verification ledger: 9,414 forecast-outcome pairs. Each pair carries region, event definition, lead time, forecast probability `p`, observed outcome and observation source. Recompute the scores from the pairs yourself. |
+| `record/verification_state.json` | The verification ledger: {{N_PAIRS}} forecast-outcome pairs. Each pair carries region, event definition, lead time, forecast probability `p`, observed outcome and observation source. Recompute the scores from the pairs yourself. |
 | `record/example-day/` | Two worked pairs (a frost hit and a quiet day) and how to locate them in the ledger. |
 | `bakeoff/` | Model bakeoff for the July 2021 Brazil frost case: RMSE, bias, frost detection, compute cost per model. |
 | `terms/` | Two index specifications (term sheets): frost coffee (Brazil anchor) and cold spell (EU cities). |
-| `seals/daily/` | The daily OpenTimestamps chain: 92 manifests (2026-07-03 to 2026-10-02), each a SHA-256 manifest of that day's record artifacts, plus its `.ots` proof. |
+| `seals/daily/` | The daily OpenTimestamps chain: {{N_ANCHORS}} manifests ({{ANCHOR_FIRST}} to {{ANCHOR_LAST}}), each a SHA-256 manifest of that day's record artifacts, plus its `.ots` proof. |
 | `VERIFY.md` | What a third party can and cannot check with what is published today. |
 | `ci/` | The checks that keep this repository honest (see `ci/README.md`). |
 
@@ -72,7 +63,7 @@ undefined, not failed. Read every row with its `n`.
 
    ```bash
    pip install opentimestamps-client==0.7.2
-   ots info seals/daily/anchor_20260818.json.ots
+   ots info seals/daily/anchor_{{ANCHOR_MID}}.json.ots
    ```
 
    You will see the SHA-256 of the manifest that the proof commits to, the calendar
@@ -90,16 +81,16 @@ undefined, not failed. Read every row with its `n`.
 
 ## What the record shows, honestly
 
-- The aggregate Brier Skill Score is negative (-0.5986 over 9,414 pairs):
+- The aggregate Brier Skill Score is negative ({{BSS_OVERALL}} over {{N_PAIRS}} pairs):
   most days are quiet and beating local climatology on quiet days is hard. The compound
   is published negative and all of it; positive skill concentrates in defined classes
   and every row carries its `n`.
 - The verification side of the record is stalled, and the chain shows it: the published
-  ledger has not advanced since 2026-08-27 (its hash is unchanged across
-  37 consecutive manifests, 36 days through
-  2026-10-02). The same chain shows the signals artifact moving again: unchanged
-  from 2026-08-27 to 2026-09-17 (22 days), then
-  rewritten daily, most recently 2026-10-02.
+  ledger has not advanced since {{LEDGER_FIRST_PINNED}} (its hash is unchanged across
+  {{LEDGER_STALE_ANCHORS}} consecutive manifests, {{LEDGER_STALE_DAYS}} days through
+  {{ANCHOR_LAST}}). The same chain shows the signals artifact moving again: unchanged
+  from {{SIGNALS_GAP_START}} to {{SIGNALS_GAP_END}} ({{SIGNALS_GAP_DAYS}} days), then
+  rewritten daily, most recently {{SIGNALS_LAST_CHANGE}}.
 
 ## What this is not
 

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "label": "record freshness",
+  "message": "36 days",
+  "color": "red",
+  "meta": {
+    "meaning": "days since the verification ledger last advanced, as of the refresh date",
+    "ledger_last_advanced": "2026-08-27",
+    "latest_anchor": "2026-10-02",
+    "refreshed_at_utc": "2026-10-02T21:37:22Z"
+  }
+}

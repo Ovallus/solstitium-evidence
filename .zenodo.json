@@ -1,0 +1,24 @@
+{
+  "title": "Solstitium public evidence: daily climate-forecast record and OpenTimestamps seals",
+  "upload_type": "dataset",
+  "description": "Public evidence slice of Solstitium's daily climate-prediction record: the verification ledger of forecast-outcome pairs, a model bakeoff for a Brazil frost case, two index term sheets, and a chain of daily OpenTimestamps-sealed manifests. The repository documents exactly what a third party can and cannot check (VERIFY.md) and regenerates every published number from the record.",
+  "creators": [
+    {
+      "name": "Solstitium (CausalQuant)"
+    }
+  ],
+  "keywords": [
+    "climate risk",
+    "weather forecasting",
+    "forecast verification",
+    "frost",
+    "opentimestamps"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/Ovallus/solstitium-evidence",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}

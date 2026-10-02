@@ -1,30 +1,43 @@
-# Example day — how the daily record looks when committed
+# Example pairs from the record
 
-This directory contains one day of the **live record** (2026-09-18), copied exactly as
-the bot commits it: the human-readable briefing. The machine artifacts that accompany it
-in the private record (per-ticker signal state, portfolio state) are summarized here
-rather than published field-by-field, because their full schema encodes internal
-decision layers.
+Two worked examples of the unit the public record is built from: a **forecast-outcome
+pair** (a prediction for a defined region and day, and the outcome later observed for
+it). `example_pairs.json` contains both pairs copied verbatim from
+`record/verification_state.json`:
 
-What the daily commit actually contains in the private record (for reference):
+| Pair | Region | Init (issued) | Valid day | Lead | Forecast p | Observed Tmin | Outcome |
+|---|---|---|---|---|---|---|---|
+| frost hit | parana | 2021-07-18 | 2021-07-19 | 1 day | 0.6383 | 0.21 C | 1 (frost) |
+| quiet day | minas_gerais | 2021-07-18 | 2021-07-19 | 1 day | 0.0128 | 10.68 C | 0 (no frost) |
 
-| Artifact | Purpose |
-|---|---|
-| `daily_briefing_YYYYMMDD.txt` | This human summary: portfolio, active signals, regimes. |
-| `daily_signals.jsonl` | Machine signal state per instrument (published here only in summary). |
-| `portfolio_state.json` | Paper-portfolio state (no real money). |
-| `pevent_YYYYMMDD.json` | The day's P(event) forecasts per region (internal format, not published). |
-| `registry_health.json` | Health of the record itself; alerts if anything failed. |
-| `verification_state.json` | Rolling verification ledger — the public copy lives in `/record`. |
+Both pairs come from the first forecast day in the ledger and share one event
+definition: `t2m_min` below 2.0 C. One verified positive, one verified negative.
 
-The commit timestamp is the proof: the briefing below was committed on 2026-09-18, and the
-day's OpenTimestamps anchor (see `/seals`) seals its hash into Bitcoin.
+## What a pair carries
 
----
+- `p`: the model's probability that the event would occur on `valid_time`, issued at
+  `init_time`, at the given lead time.
+- `outcome`: 0 or 1, computed from the observed values (`obs_t2m_min_c`,
+  `obs_t2m_max_c`) against the event `definition`.
+- `obs_source`: the observation dataset the pair was graded against.
 
+## Check the examples yourself
+
+Both pairs are in the published ledger. Find them and re-derive the outcome:
+
+```python
+import json
+d = json.load(open("record/verification_state.json"))
+hit = next(x for x in d["verified"] if x["event"] == "frost" and x["outcome"] == 1)
+quiet = next(x for x in d["verified"]
+             if x["event"] == "frost" and x["outcome"] == 0 and x["p"] <= 0.05)
+for x in (hit, quiet):
+    t = x["definition"]["threshold_c"]
+    observed = x["obs_t2m_min_c"]
+    recomputed = int(observed < t) if x["definition"]["direction"] == "below" else int(observed > t)
+    print(x["region"], x["p"], observed, "outcome", x["outcome"], "recomputed", recomputed)
 ```
-CAUSALQUANT ORACLE — DAILY BRIEFING
-Date: 2026-09-18  |  Portfolio: $100,000  |  Allocation: 30%
-(vg. the file briefing_2026-09-18.txt in this directory: 0 active signals that day,
- 3 instruments inactive — cocoa, orange juice, wheat — exposure $0)
-```
+
+The last two numbers must match for every pair: that is the arithmetic behind the
+ledger's `outcome` column. CI re-checks that the example pairs still exist verbatim
+in the ledger, so these copies cannot drift from the record.
