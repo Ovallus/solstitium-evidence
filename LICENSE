@@ -1,6 +1,8 @@
+SPDX-License-Identifier: LicenseRef-Solstitium-1.0
+
 Copyright (c) 2026 Solstitium / CausalQuant. All rights reserved.
 
-This directory is published for verification, technical diligence and research purposes.
+This repository is published for verification, technical diligence and research purposes.
 
 You may:
 - read, copy and recompute anything here for your own evaluation;
@@ -10,4 +12,5 @@ You may not:
 - redistribute the term sheets or the record data commercially;
 - use them to construct competing index products without a license.
 
-Commercial use, redistribution and licensing: contacto@solstitium.eu
+Commercial use, redistribution and licensing: open an issue at
+https://github.com/Ovallus/solstitium-evidence/issues

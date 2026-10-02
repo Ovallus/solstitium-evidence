@@ -1,0 +1,37 @@
+{
+  "branch": "main",
+  "files": {
+    "logs/daily/daily_signals.jsonl": {
+      "bytes": 123352,
+      "sha256": "f51d1b3d8e8082bd935df0abebd776897c17c9e2cec8087643a4239121454188"
+    },
+    "logs/daily/pevent_hindcast_india2022.json": {
+      "bytes": 3969,
+      "sha256": "fde6c7bdac4d72c9899fd663ed1eb6d918b3c458dc9c7b7469d1574c59bbe934"
+    },
+    "logs/daily/portfolio_state.json": {
+      "bytes": 2334,
+      "sha256": "df9198b25561b067719903fb663bf63f7122bdcc22fe941608a766b5159c06de"
+    },
+    "logs/daily/verification_state.json": {
+      "bytes": 3921184,
+      "sha256": "1d37ad828e0e2c81c3a119e7e139fdddbcb51b77455713e7a195584fbfff7b68"
+    },
+    "shadow/frost_2026/NOTA_VERSION_1_lista_particiones.md": {
+      "bytes": 5447,
+      "sha256": "ab8f609aa76f69052b1bc489805b0c5d74f4aeb9f364c3220c87cb8815dbf09a"
+    },
+    "shadow/frost_2026/PREREGISTRO_helada_vinedo_v1.md": {
+      "bytes": 8892,
+      "sha256": "4608711f2a7c10190b1ad3169811c6e6868404b37de36aa1b16c32c5925c6840"
+    },
+    "shadow/heat_2026/SPEC_calor_2026.md": {
+      "bytes": 22705,
+      "sha256": "32a422ba0ceb35a6149ad4471b629fa16d39b9c61a6ee2ce1b5b4aceb8fc9add"
+    }
+  },
+  "generated_at_utc": "2026-09-26T16:32:37+00:00",
+  "head_sha": "d448b4b6311aac742d74727f23bef41f4e4f31d4",
+  "missing": [],
+  "schema": "ots-anchor.v1"
+}

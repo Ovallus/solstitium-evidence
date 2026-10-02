@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this record, its bakeoff or its term sheets, please cite it as below."
+title: "Solstitium public evidence: daily climate-forecast record and OpenTimestamps seals"
+abstract: "Public evidence slice of Solstitium's daily climate-prediction record: forecast-outcome verification pairs, a model bakeoff, index term sheets, and a chain of daily OpenTimestamps-sealed manifests."
+type: dataset
+authors:
+  - name: "Solstitium (CausalQuant)"
+repository-code: "https://github.com/Ovallus/solstitium-evidence"
+url: "https://github.com/Ovallus/solstitium-evidence"
+license: "LicenseRef-Solstitium-1.0"
+license-url: "https://github.com/Ovallus/solstitium-evidence/blob/main/LICENSE"
+keywords:
+  - climate risk
+  - weather forecasting
+  - forecast verification
+  - frost
+  - opentimestamps
+# version and date-released will be added with the first tagged release (see RELEASING.md)

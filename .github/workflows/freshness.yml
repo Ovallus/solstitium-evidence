@@ -1,0 +1,39 @@
+name: refresh-freshness
+
+on:
+  schedule:
+    # daily, off the hour to be gentle on the schedule queue
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-freshness
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Regenerate freshness.json and README.md
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install OpenTimestamps client (pinned)
+        run: pip install "opentimestamps-client==0.7.2"
+      - name: Regenerate
+        run: python3 ci/render_readme.py
+      - name: Commit if anything changed
+        run: |
+          git config user.name "solstitium-bot"
+          git config user.email "solstitium-bot@users.noreply.github.com"
+          if git diff --quiet -- README.md freshness.json; then
+            echo "generated files already current"
+          else
+            git add README.md freshness.json
+            git commit -m "chore: refresh generated freshness"
+            git push
+          fi

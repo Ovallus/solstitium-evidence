@@ -72,8 +72,8 @@ declarada**, no como la lectura de una estación puntual ni del centroide de la 
 
 - **Fuente primaria de settlement propuesta:** reanálisis **ERA5 / ERA5-Land** (Copernicus/ECMWF,
   licencia comercial con atribución), reducido al **mínimo espacial sobre la caja** y sobre las 24 horas
-  del día — exactamente la receta `region_min_series` que usa nuestro forecast. Esto garantiza que "lo
-  que el modelo predijo" y "contra qué se liquida" comparten geometría (misma caja, misma reducción
+  del día — exactamente la receta `region_min_series` que usa nuestro forecast. Así, "lo que el
+  modelo predijo" y "contra qué se liquida" comparten geometría (misma caja, misma reducción
   espacial y temporal).
 - **Cross-check / fuente oficial local:** estación oficial **IDEAM (Colombia) / INMET (Brasil)** dentro
   de la caja, o **LST nocturno satelital (MODIS/VIIRS)** para la discriminación municipal. Estos son

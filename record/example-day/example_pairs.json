@@ -1,0 +1,40 @@
+{
+  "source": "record/verification_state.json",
+  "selection": "First pair in ledger order with event 'frost' and outcome 1; first pair with event 'frost', outcome 0 and p <= 0.05. Both copied verbatim.",
+  "pairs": [
+    {
+      "definition": {
+        "direction": "below",
+        "threshold_c": 2.0,
+        "variable": "t2m_min"
+      },
+      "event": "frost",
+      "init_time": "2021-07-18T00:00:00Z",
+      "lead": 1,
+      "obs_source": "era5",
+      "obs_t2m_max_c": null,
+      "obs_t2m_min_c": 0.21,
+      "outcome": 1,
+      "p": 0.6383,
+      "region": "parana",
+      "valid_time": "2021-07-19"
+    },
+    {
+      "definition": {
+        "direction": "below",
+        "threshold_c": 2.0,
+        "variable": "t2m_min"
+      },
+      "event": "frost",
+      "init_time": "2021-07-18T00:00:00Z",
+      "lead": 1,
+      "obs_source": "era5",
+      "obs_t2m_max_c": null,
+      "obs_t2m_min_c": 10.68,
+      "outcome": 0,
+      "p": 0.0128,
+      "region": "minas_gerais",
+      "valid_time": "2021-07-19"
+    }
+  ]
+}
