@@ -91,11 +91,6 @@ undefined, not failed. Read every row with its `n`.
   {{ANCHOR_LAST}}). The same chain shows the signals artifact moving again: unchanged
   from {{SIGNALS_GAP_START}} to {{SIGNALS_GAP_END}} ({{SIGNALS_GAP_DAYS}} days), then
   rewritten daily, most recently {{SIGNALS_LAST_CHANGE}}.
-- Earlier versions of this README said the record "was repaired the day it was found".
-  That claim is not made anymore. What the chain can show is what is written above: a
-  signals gap from {{SIGNALS_GAP_START}} to {{SIGNALS_GAP_END}} that then closed, and a
-  verification ledger that has not advanced yet. Nothing here describes the state more
-  flatteringly than the artifacts allow.
 
 ## What this is not
 
