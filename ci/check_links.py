@@ -3,7 +3,8 @@
 
 Run from the repository root: python3 ci/check_links.py
 Needs curl on PATH. Transient 5xx/429 responses (the runner network
-occasionally throttles github.com) are retried with a short wait.
+occasionally throttles github.com) are retried: curl-level retries up to
+about two minutes per URL, then one outer re-attempt.
 """
 
 import os
@@ -36,11 +37,13 @@ def urls():
     return found
 
 
-def probe(url, attempts=3):
+def probe(url, attempts=2):
     last = ("", "")
     for i in range(attempts):
         r = subprocess.run(
-            ["curl", "-sS", "-o", "/dev/null", "-L", "--max-time", "25",
+            ["curl", "-sS", "-o", "/dev/null", "-L",
+             "--max-time", "40",
+             "--retry", "8", "--retry-delay", "6", "--retry-max-time", "120",
              "-A", "solstitium-evidence-link-check", "-w", "%{http_code}", url],
             capture_output=True, text=True)
         code, err = r.stdout.strip(), r.stderr.strip()
@@ -48,7 +51,7 @@ def probe(url, attempts=3):
         retryable = (not code.isdigit()) or int(code) >= 500 or code == "429"
         if not retryable or i == attempts - 1:
             return last
-        time.sleep(4 + 6 * i)
+        time.sleep(15)
     return last
 
 
@@ -63,6 +66,7 @@ def main():
         print(f"{'ok   ' if ok else 'FAIL '} {code or '???'}  {url}")
         if not ok:
             fails.append((url, where, code, err[:120]))
+        time.sleep(1)
     if fails:
         print("\nfailed links:")
         for url, where, code, err in fails:
