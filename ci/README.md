@@ -7,7 +7,7 @@ link check) and run from the repository root:
 |---|---|
 | `render_readme.py` | README.md and freshness.json are generated from the ledger and the seal chain; `--check` fails on any hand-edited number |
 | `claims_lint.py` | prohibited claim terms outside explicit negations |
-| `check_links.py` | every URL in the published documents resolves |
+| `check_links.py` | every URL in the published documents resolves (GitHub repo/file links via the GitHub API; curl elsewhere) |
 | `ots_check.py` | every seal proof parses, matches its manifest byte-for-byte, and carries a Bitcoin attestation; the published ledger matches the pinned hash |
 | `qa_grep.py` | the internal-content terms removed in the cleanup stay out of the tree |
 

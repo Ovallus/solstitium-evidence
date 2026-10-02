@@ -46,6 +46,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: python3 ci/check_links.py
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   seal-chain:
     name: OpenTimestamps chain
