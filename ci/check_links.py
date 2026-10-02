@@ -2,13 +2,15 @@
 """Check that every URL in the published documents resolves (2xx or 3xx).
 
 Run from the repository root: python3 ci/check_links.py
-Needs curl on PATH.
+Needs curl on PATH. Transient 5xx/429 responses (the runner network
+occasionally throttles github.com) are retried with a short wait.
 """
 
 import os
 import re
 import subprocess
 import sys
+import time
 
 URL = re.compile(r"https?://[^\s\)\]\"'<>`]+")
 EXCLUDE_DIRS = {".git"}
@@ -43,12 +45,20 @@ def urls():
     return found
 
 
-def probe(url):
-    r = subprocess.run(
-        ["curl", "-sS", "-o", "/dev/null", "-L", "--max-time", "25",
-         "-A", "solstitium-evidence-link-check", "-w", "%{http_code}", url],
-        capture_output=True, text=True)
-    return r.stdout.strip(), r.stderr.strip()
+def probe(url, attempts=3):
+    last = ("", "")
+    for i in range(attempts):
+        r = subprocess.run(
+            ["curl", "-sS", "-o", "/dev/null", "-L", "--max-time", "25",
+             "-A", "solstitium-evidence-link-check", "-w", "%{http_code}", url],
+            capture_output=True, text=True)
+        code, err = r.stdout.strip(), r.stderr.strip()
+        last = (code, err)
+        retryable = (not code.isdigit()) or int(code) >= 500 or code == "429"
+        if not retryable or i == attempts - 1:
+            return last
+        time.sleep(4 + 6 * i)
+    return last
 
 
 def main():
