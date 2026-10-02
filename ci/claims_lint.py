@@ -13,6 +13,9 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _textfiles import text_files  # noqa: E402
+
 TERMS = [
     r"certific",                       # certificacion / certificado / certified
     r"motor verificado", r"verified engine",
@@ -27,18 +30,9 @@ TERMS = [
 NEGATION = re.compile(
     r"(?i)\b(no|ni|sin|nunca|jam[aá]s|not|never|nor|without)\b[^.;:\n]{0,48}$")
 
-EXCLUDE_DIRS = {".git", "ci", ".github"}
-TEXT_EXT = {".md", ".txt", ".json", ".cff", ".yml", ".yaml", ".csv"}
-SPECIAL = {"LICENSE"}
-
 
 def content_files():
-    for base, dirs, names in os.walk("."):
-        dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS]
-        for name in names:
-            ext = os.path.splitext(name)[1].lower()
-            if ext in TEXT_EXT or name in SPECIAL:
-                yield os.path.join(base, name)
+    return text_files(exclude_dirs={"ci", ".github"})
 
 
 def main():

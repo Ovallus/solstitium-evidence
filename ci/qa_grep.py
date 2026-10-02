@@ -19,25 +19,16 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _textfiles import text_files  # noqa: E402
+
 # Stored split so this checker does not contain the contiguous terms itself.
 PARTS = [("Wyck", "off"), ("Port", "folio"), ("ORAC", "LE"), ("activate", " at")]
 JOINED = "|".join(a + b for a, b in PARTS)
 EXACT = re.compile(JOINED)
 FUZZY = re.compile(JOINED, re.IGNORECASE)
 
-EXCLUDE_DIRS = {".git"}
-TEXT_EXT = {".md", ".txt", ".json", ".cff", ".yml", ".yaml", ".py", ".csv"}
-SPECIAL = {"LICENSE"}
 SELF = "ci/qa_grep.py"
-
-
-def text_files():
-    for base, dirs, names in os.walk("."):
-        dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS]
-        for name in names:
-            ext = os.path.splitext(name)[1].lower()
-            if ext in TEXT_EXT or name in SPECIAL:
-                yield os.path.relpath(os.path.join(base, name), ".")
 
 
 def part_index(m):
